@@ -49,6 +49,7 @@ const verificarGanador = (tablero) => {
 
 // --- "click" (Interacción del Usuario) ---
 document.addEventListener("click", (e) => {
+  if (finDelJuego === true) return null;
   // --- "click" Tablero de Juego (Interacción del Usuario) ---
   if (e.target.matches(".casilla")) {
     const CASILLA_INDEX = e.target.dataset.value;
