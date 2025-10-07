@@ -11,7 +11,11 @@ const $marcadorX = document.querySelector(".marcador-jugador1"),
 // ===========================================
 let tablero = Array(9).fill(""),
   turnoJugador = "❌",
-  finDelJuego = false;
+  finDelJuego = false,
+  puntos = 0;
+
+$marcadorX.textContent = puntos;
+$marcadorO.textContent = puntos;
 
 const COMBINACION_PARA_GANAR = [
   [0, 1, 2],
@@ -24,10 +28,14 @@ const COMBINACION_PARA_GANAR = [
   [2, 4, 6],
 ];
 
+// --- función que verifica si hay un posible ganador ---
 const verificarGanador = (tablero) => {
+  // Recorremos array de posibles combinaciones ganadoras
   const hayGanador = COMBINACION_PARA_GANAR.some((conjunto) => {
+    // Destructuramos la combinación
     const [a, b, c] = conjunto;
 
+    // Condición de victoria
     if (
       tablero[a] !== "" &&
       tablero[a] === tablero[b] &&
@@ -37,10 +45,11 @@ const verificarGanador = (tablero) => {
     }
   });
 
+  // Si detecta ganador, coloca la variable global finDelJuego a true
   if (hayGanador) {
     finDelJuego = true;
   }
-
+  // Y devuelve un Booleano
   return hayGanador;
 };
 
@@ -50,19 +59,39 @@ const verificarGanador = (tablero) => {
 
 // --- "click" (Interacción del Usuario) ---
 document.addEventListener("click", (e) => {
+  // Detiene cualquier interacción con el tablero, si detecta un ganador
   if (finDelJuego === true) return null;
+
   // --- "click" Tablero de Juego (Interacción del Usuario) ---
   if (e.target.matches(".casilla")) {
+    // Obtiene la posición (valor) de la casilla en la que hicimos "click"
     const CASILLA_INDEX = e.target.dataset.value;
+    // Valida si la casilla seleciionada esta vacía
     if (tablero[CASILLA_INDEX] === "") {
-      tablero[CASILLA_INDEX] = turnoJugador;
-      $casilla[CASILLA_INDEX].textContent = turnoJugador;
+      tablero[CASILLA_INDEX] = turnoJugador; // Marca en el arreglo el valor
+      $casilla[CASILLA_INDEX].textContent = turnoJugador; // Marca en el DOM el valor
 
+      //1. Almacena el resultado de la verificación
+      const GANADOR = verificarGanador(tablero);
+
+      //2. Verificación de puntaje y victoria
+      if (GANADOR) {
+        // ¿Quién gano? turno actual "❌"
+        if (turnoJugador === "❌") {
+          puntos++;
+          $marcadorX.textContent = puntos;
+        } else {
+          // ó "⭕"
+          puntos++;
+          $marcadorO.textContent = puntos;
+        }
+        return;
+      }
+
+      //3. Alternancia de turno. solo si no hay gandor
       if (turnoJugador === "⭕") {
-        verificarGanador(tablero);
         turnoJugador = "❌";
       } else if (turnoJugador === "❌") {
-        verificarGanador(tablero);
         turnoJugador = "⭕";
       }
     } else {
