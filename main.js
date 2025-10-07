@@ -1,9 +1,10 @@
 // ===========================================
 // Variables que almacenan elementos del DOM
 // ===========================================
-const $tabla = document.querySelector(".tabla"),
-  $casilla = document.querySelectorAll(".casilla"),
-  $botonReinicio = document.querySelector(".btn-reiniciar");
+const $marcadorX = document.querySelector(".marcador-jugador1"),
+  $marcadorO = document.querySelector(".marcador-jugador2"),
+  $botonReinicio = document.querySelector(".btn-reiniciar"),
+  $casilla = document.querySelectorAll(".casilla");
 
 // ===========================================
 // Variables globales de estado
