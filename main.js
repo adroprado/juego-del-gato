@@ -28,6 +28,10 @@ const COMBINACION_PARA_GANAR = [
   [2, 4, 6],
 ];
 
+// ===========================================
+// Funciones de Lógica
+// ===========================================
+
 // --- función que verifica si hay un posible ganador ---
 const verificarGanador = (tablero) => {
   // Recorremos array de posibles combinaciones ganadoras
@@ -65,6 +69,19 @@ const verificarEmapte = (tablero) => {
   return false;
 };
 
+// --- función que reinicia partida ---
+const reiniciarPartida = () => {
+  // Reinicia el estado lógico
+  tablero = Array(9).fill("");
+  finDelJuego = false;
+  turnoJugador = "❌";
+
+  // Reinicia el DOM
+  $casilla.forEach((casilla) => {
+    casilla.textContent = "";
+  });
+};
+
 // ===========================================
 // Delegación de Eventos
 // ===========================================
@@ -97,12 +114,18 @@ document.addEventListener("click", (e) => {
           puntos++;
           $marcadorO.textContent = puntos;
         }
+        // Llamada automática al reinicio con temporizador
+        setTimeout(reiniciarPartida, 3000);
         return;
       }
-      // Verifica empate
 
+      // Verifica empate
       const EMPATE = verificarEmapte(tablero);
-      if (EMPATE) return;
+      if (EMPATE) {
+        // Llamada automática al reinicio con temporizador
+        setTimeout(reiniciarPartida, 3000);
+        return;
+      }
 
       // Alternancia de turno. solo si no hay gandor
       if (turnoJugador === "⭕") {
