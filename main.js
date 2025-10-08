@@ -53,6 +53,18 @@ const verificarGanador = (tablero) => {
   return hayGanador;
 };
 
+// --- función que verifica empate ---
+const verificarEmapte = (tablero) => {
+  console.log(tablero);
+  // Verifica que no haya cadenas vacías
+  const TABLERO_LLENO = !tablero.includes("");
+  if (TABLERO_LLENO) {
+    finDelJuego = true; // Correcto: detiene el juego
+    return true; // Correcto: indica que la partida ha terminado por empate
+  }
+  return false;
+};
+
 // ===========================================
 // Delegación de Eventos
 // ===========================================
@@ -71,10 +83,10 @@ document.addEventListener("click", (e) => {
       tablero[CASILLA_INDEX] = turnoJugador; // Marca en el arreglo el valor
       $casilla[CASILLA_INDEX].textContent = turnoJugador; // Marca en el DOM el valor
 
-      //1. Almacena el resultado de la verificación
+      // Almacena el resultado de la verificación
       const GANADOR = verificarGanador(tablero);
 
-      //2. Verificación de puntaje y victoria
+      // Verificación de puntaje y victoria
       if (GANADOR) {
         // ¿Quién gano? turno actual "❌"
         if (turnoJugador === "❌") {
@@ -87,8 +99,12 @@ document.addEventListener("click", (e) => {
         }
         return;
       }
+      // Verifica empate
 
-      //3. Alternancia de turno. solo si no hay gandor
+      const EMPATE = verificarEmapte(tablero);
+      if (EMPATE) return;
+
+      // Alternancia de turno. solo si no hay gandor
       if (turnoJugador === "⭕") {
         turnoJugador = "❌";
       } else if (turnoJugador === "❌") {
