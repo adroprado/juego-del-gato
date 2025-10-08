@@ -12,10 +12,11 @@ const $marcadorX = document.querySelector(".marcador-jugador1"),
 let tablero = Array(9).fill(""),
   turnoJugador = "❌",
   finDelJuego = false,
-  puntos = 0;
+  puntosX = 0,
+  puntosO = 0;
 
-$marcadorX.textContent = puntos;
-$marcadorO.textContent = puntos;
+$marcadorX.textContent = puntosX;
+$marcadorO.textContent = puntosO;
 
 const COMBINACION_PARA_GANAR = [
   [0, 1, 2],
@@ -71,12 +72,12 @@ const verificarEmapte = (tablero) => {
 
 // --- función que reinicia partida ---
 const reiniciarPartida = () => {
-  // Reinicia el estado lógico
+  // Reinicia el estado lógico de las variables
   tablero = Array(9).fill("");
   finDelJuego = false;
   turnoJugador = "❌";
 
-  // Reinicia el DOM
+  // Reinicia visualización en el DOM
   $casilla.forEach((casilla) => {
     casilla.textContent = "";
   });
@@ -107,15 +108,15 @@ document.addEventListener("click", (e) => {
       if (GANADOR) {
         // ¿Quién gano? turno actual "❌"
         if (turnoJugador === "❌") {
-          puntos++;
-          $marcadorX.textContent = puntos;
+          puntosX++;
+          $marcadorX.textContent = puntosX;
         } else {
           // ó "⭕"
-          puntos++;
-          $marcadorO.textContent = puntos;
+          puntosO++;
+          $marcadorO.textContent = puntosO;
         }
         // Llamada automática al reinicio con temporizador
-        setTimeout(reiniciarPartida, 3000);
+        setTimeout(reiniciarPartida, 2000);
         return;
       }
 
@@ -123,7 +124,7 @@ document.addEventListener("click", (e) => {
       const EMPATE = verificarEmapte(tablero);
       if (EMPATE) {
         // Llamada automática al reinicio con temporizador
-        setTimeout(reiniciarPartida, 3000);
+        setTimeout(reiniciarPartida, 2000);
         return;
       }
 
@@ -137,6 +138,13 @@ document.addEventListener("click", (e) => {
       return;
     }
   }
+  // --- "click" Botón Reiniciar Marcador (Interacción del Usuario) ---
+  if (e.target === $botonReinicio) {
+    // Reinicia el estado lógico de las variables
+    puntosX = 0;
+    puntosO = 0;
+    // Reinicia visualización en el DOM
+    $marcadorX.textContent = puntosX;
+    $marcadorO.textContent = puntosO;
+  }
 });
-// --- "click" Botón Reiniciar Marcador (Interacción del Usuario) ---
-// if (e.target === $botonReinicio) {}
