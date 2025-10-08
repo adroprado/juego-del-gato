@@ -60,7 +60,6 @@ const verificarGanador = (tablero) => {
 
 // --- función que verifica empate ---
 const verificarEmapte = (tablero) => {
-  console.log(tablero);
   // Verifica que no haya cadenas vacías
   const TABLERO_LLENO = !tablero.includes("");
   if (TABLERO_LLENO) {
